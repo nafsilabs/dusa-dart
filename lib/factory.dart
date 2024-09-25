@@ -11,6 +11,7 @@ class Factory {
     grpc = GrpcServiceImpl(isBuildnet);
   }
 
+  /// getAllLBPairs returns pairs information
   Future<(int, String, bool, bool)> getAllLBPairs(TokenName token1, TokenName token2) async {
     final params = Args();
     params.addString(getTokenAddress(token1, isBuildnet));

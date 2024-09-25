@@ -1,6 +1,6 @@
 // Package imports:
 
-// ignore_for_file: unrelated_type_equality_checks
+// ignore_for_file: unrelated_type_equality_checks, implementation_imports
 
 // Flutter imports:
 import 'dart:async';
@@ -15,7 +15,7 @@ import 'package:massa/src/grpc/generated/public.pbgrpc.dart';
 import 'package:dusa/env/env.dart';
 
 abstract interface class GrpcService {
-  /// read only smart contract call
+  /// scReadOnlyCall reads only smart contracts
   Future<Uint8List> scReadOnlyCall(
       {required double maximumGas,
       required String smartContracAddress,
@@ -23,6 +23,7 @@ abstract interface class GrpcService {
       required Uint8List functionParameters,
       required String callerAddress});
 
+  /// scCall executes smart contract
   Future<(String, bool)> scCall(
       {required Account account,
       required double fee,
@@ -90,6 +91,7 @@ class GrpcServiceImpl implements GrpcService {
     }
   }
 
+  /// waitForFinalOperationStatus waits for operation to be final
   Future<bool> waitForFinalOperationStatus(String operationID) async {
     bool timeoutReached = false;
     Timer timeoutTimer = Timer(CommonConstants.waitOperationTimeout, () {
@@ -113,6 +115,7 @@ class GrpcServiceImpl implements GrpcService {
     return false;
   }
 
+  @override
   Future<void> close() async {
     await _grpc.close();
   }

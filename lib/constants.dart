@@ -6,6 +6,7 @@ class CommonConstants {
   static const int txDeadline = 2 * 60 * 1000; //in ms (2 minutes)
 }
 
+/// BuildnetConstants contains constants that are used for for buildnet
 class BuildnetConstants {
   static const String wmasAddress = String.fromEnvironment(
     'wmasAddress',
@@ -39,6 +40,7 @@ class BuildnetConstants {
   );
 }
 
+/// MainnetConstants contains constants that are used for for buildnet
 class MainnetConstants {
   /// wmasAddress is a smart contract address that supports these functions
   /// deposit, withdraw, computeMintStorageCost, version, name, symbol, totalSupply,

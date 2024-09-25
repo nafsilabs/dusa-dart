@@ -8,13 +8,10 @@ void main() async {
   final wallet = Wallet();
   final account = await wallet.addAccountFromSecretKey(Env.privateKey, AddressType.user, NetworkType.BUILDNET);
   final factory = Factory(account, isBuildnet: false);
-
-  //await factory.testGRPC();
   final token1 = TokenName.WMAS;
   final token2 = TokenName.USDC;
   final token3 = TokenName.WETH;
   final usdcBinStep = 20;
-  final wethBinStep = 15;
   final (binSteps1, lBPair1, createdByOwner1, isBlacklisted1) =
       await factory.getPairInformation(token1, token2, usdcBinStep);
   print('token information for WMAS/USDC');

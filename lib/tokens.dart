@@ -178,6 +178,7 @@ class Token {
   }
 }
 
+/// getTokenAddress returns the token address
 String getTokenAddress(TokenName token, bool isBuildnet) {
   String tokenAddress = '';
   switch (token) {
@@ -196,6 +197,7 @@ String getTokenAddress(TokenName token, bool isBuildnet) {
   return tokenAddress;
 }
 
+/// getTokenDecimal returns the number decimals supported by the token
 int getTokenDecimal(TokenName token) {
   int tokenDecimals = 0;
   switch (token) {

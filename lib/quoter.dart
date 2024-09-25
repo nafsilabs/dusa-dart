@@ -11,11 +11,13 @@ class Quoter {
     grpc = GrpcServiceImpl(isBuildnet);
   }
 
+  /// findBestPathFromAmountIn retrives the best path of a given token pair
   Future<(List, List, List, List, List, List)> findBestPathFromAmountIn(
       TokenName token1, TokenName token2, BigInt amountIn) {
     return _findBestPath(token1, token2, amountIn, true);
   }
 
+  /// findBestPathFromAmountOut retrives the best path of a given token pair
   Future<(List, List, List, List, List, List)> findBestPathFromAmountOut(
       TokenName token1, TokenName token2, BigInt amountOut) async {
     return await _findBestPath(token1, token2, amountOut, false);

@@ -1,10 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:massa/massa.dart';
 import 'package:dusa/constants.dart';
-import 'package:dusa/env/env.dart';
 import 'package:dusa/service/grpc_service.dart';
-import 'package:massa/src/grpc/generated/massa/model/v1/execution.pb.dart';
 
 class Swap {
   final Account account;
@@ -14,6 +10,8 @@ class Swap {
   Swap(this.account, {this.isBuildnet = true}) {
     grpc = GrpcServiceImpl(isBuildnet);
   }
+
+  /// getSwapIn  evaluates the input amount of coin and fee needed to obtain the given output amount of coins
 
   Future<(BigInt, BigInt)> getSwapIn(String pairAddress, BigInt amountOut, bool swapForY) async {
     final params = Args();
@@ -63,6 +61,7 @@ class Swap {
     return (amountOut, feesIn);
   }
 
+  /// swapExactMASForTokens swaps exact amount of input MAS coins to a specified output token
   Future<(String, bool)> swapExactMASForTokens(BigInt amountIn, BigInt amountOut, List<dynamic> binSteps,
       List<dynamic> tokenPath, String toAddress, int deadline) async {
     final deadline2 = BigInt.from(DateTime.timestamp().millisecondsSinceEpoch + deadline);
@@ -90,6 +89,8 @@ class Swap {
       functionParameters: functionParameters,
     );
   }
+
+  /// swapTokensForExactMAS swaps specified input amount of coins to an exact output ammount of MAS coins
 
   Future<(String, bool)> swapTokensForExactMAS(BigInt amountIn, BigInt amountOut, List<dynamic> binSteps,
       List<dynamic> tokenPath, String toAddress, int deadline) async {
@@ -119,188 +120,3 @@ class Swap {
     );
   }
 }
-
-/*
-swap/trade
-
-  /**
-   * Returns the on-chain method name and args for this trade
-   *
-   * @param {TradeOptions | TradeOptionsDeadline} options
-   * @returns {SwapParameters}
-   */
-  public swapCallParameters(
-    options: TradeOptions | TradeOptionsDeadline
-  ): SwapParameters {
-    const nativeIn = this.isNativeIn
-    const nativeOut = this.isNativeOut
-    // the router does not support both native in and out
-    invariant(!(nativeIn && nativeOut), 'NATIVE_IN_OUT')
-    invariant(!('ttl' in options) || options.ttl > 0, 'TTL')
-
-    const to: string = options.recipient
-    const amountIn: bigint = this.maximumAmountIn(options.allowedSlippage).raw
-    const amountOut: bigint = this.minimumAmountOut(options.allowedSlippage).raw
-
-    const binSteps: string[] = this.quote.binSteps.map((bin) => bin.toString())
-    const path: RouterPathParameters = {
-      pairBinSteps: binSteps,
-      tokenPath: this.quote.route.map((t) => new Address(t))
-    }
-    const deadline =
-      'ttl' in options
-        ? Math.floor(new Date().getTime()) + options.ttl
-        : options.deadline
-
-    const useFeeOnTransfer = Boolean(options.feeOnTransfer)
-
-    const SWAP_STORAGE_COST = MassaUnits.oneMassa / 10n // 0.1 MAS
-
-    const { methodName, args, value } = ((
-      tradeType: TradeType
-    ): SwapParameters => {
-      const args: Args = new Args()
-      let value = SWAP_STORAGE_COST
-      switch (tradeType) {
-        case TradeType.EXACT_INPUT:
-          if (nativeIn) {
-            const methodName = useFeeOnTransfer
-              ? 'swapExactMASForTokensSupportingFeeOnTransferTokens'
-              : 'swapExactMASForTokens'
-            args
-              .addU256(amountOut)
-              .addArray(path.pairBinSteps, ArrayTypes.U64)
-              .addSerializableObjectArray(path.tokenPath)
-              .addString(to)
-              .addU64(BigInt(deadline))
-              .addU64(SWAP_STORAGE_COST)
-            value += amountIn
-            return { args, methodName, value }
-          } else if (nativeOut) {
-            const methodName = useFeeOnTransfer
-              ? 'swapExactTokensForMASSupportingFeeOnTransferTokens'
-              : 'swapExactTokensForMAS'
-            args
-              .addU256(amountIn)
-              .addU256(amountOut)
-              .addArray(path.pairBinSteps, ArrayTypes.U64)
-              .addSerializableObjectArray(path.tokenPath)
-              .addString(to)
-              .addU64(BigInt(deadline))
-            return { args, methodName, value }
-          } else {
-            const methodName = useFeeOnTransfer
-              ? 'swapExactTokensForTokensSupportingFeeOnTransferTokens'
-              : 'swapExactTokensForTokens'
-            args
-              .addU256(amountIn)
-              .addU256(amountOut)
-              .addArray(path.pairBinSteps, ArrayTypes.U64)
-              .addSerializableObjectArray(path.tokenPath)
-              .addString(to)
-              .addU64(BigInt(deadline))
-            return { args, methodName, value }
-          }
-        case TradeType.EXACT_OUTPUT:
-          invariant(!useFeeOnTransfer, 'EXACT_OUT_FOT')
-          if (nativeIn) {
-            const methodName = 'swapMASForExactTokens'
-            args
-              .addU256(amountOut)
-              .addArray(path.pairBinSteps, ArrayTypes.U64)
-              .addSerializableObjectArray(path.tokenPath)
-              .addString(to)
-              .addU64(BigInt(deadline))
-              .addU64(SWAP_STORAGE_COST)
-            value += amountIn
-            return { args, methodName, value }
-          } else if (nativeOut) {
-            const methodName = 'swapTokensForExactMAS'
-            args
-              .addU256(amountOut)
-              .addU256(amountIn)
-              .addArray(path.pairBinSteps, ArrayTypes.U64)
-              .addSerializableObjectArray(path.tokenPath)
-              .addString(to)
-              .addU64(BigInt(deadline))
-            return { args, methodName, value }
-          } else {
-            const methodName = 'swapTokensForExactTokens'
-            args
-              .addU256(amountOut)
-              .addU256(amountIn)
-              .addArray(path.pairBinSteps, ArrayTypes.U64)
-              .addSerializableObjectArray(path.tokenPath)
-              .addString(to)
-              .addU64(BigInt(deadline))
-            return { args, methodName, value }
-          }
-      }
-    })(this.tradeType)
-
-    return {
-      methodName,
-      args,
-      value
-    }
-  }
-*/
-
-
-/* extract swap output
-const extractAmountInOut = (
-  method: SwapRouterMethod,
-  args: Args,
-  coins: bigint
-) => {
-  switch (method) {
-    case 'swapExactTokensForTokens': {
-      const amountIn = args.nextU256()
-      const amountOutMin = args.nextU256()
-      return { amountIn, amountOut: amountOutMin }
-    }
-    case 'swapTokensForExactTokens': {
-      const amountOut = args.nextU256()
-      const amountInMax = args.nextU256()
-      return { amountIn: amountInMax, amountOut }
-    }
-    case 'swapExactMASForTokens': {
-      const amountIn = coins
-      const amountOutMin = args.nextU256()
-      return { amountIn, amountOut: amountOutMin }
-    }
-    case 'swapExactTokensForMAS': {
-      const amountIn = args.nextU256()
-      const amountOutMinMAS = args.nextU256()
-      return { amountIn, amountOut: amountOutMinMAS }
-    }
-    case 'swapTokensForExactMAS': {
-      const amountOut = args.nextU256()
-      const amountInMax = args.nextU256()
-      return { amountIn: amountInMax, amountOut }
-    }
-    case 'swapMASForExactTokens': {
-      const amountIn = coins
-      const amountOut = args.nextU256()
-      return { amountIn, amountOut }
-    }
-    case 'swapExactMASForTokensSupportingFeeOnTransferTokens': {
-      const amountIn = coins
-      const amountOutMin = args.nextU256()
-      return { amountIn, amountOut: amountOutMin }
-    }
-    case 'swapExactTokensForMASSupportingFeeOnTransferTokens': {
-      const amountIn = args.nextU256()
-      const amountOutMinMAS = args.nextU256()
-      return { amountIn, amountOut: amountOutMinMAS }
-    }
-    case 'swapExactTokensForTokensSupportingFeeOnTransferTokens': {
-      const amountIn = args.nextU256()
-      const amountOutMin = args.nextU256()
-      return { amountIn, amountOut: amountOutMin }
-    }
-    default:
-      throw new Error('unknown method: ' + method)
-  }
-}
-*/
