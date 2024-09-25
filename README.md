@@ -93,18 +93,14 @@ Dusa has a number of smart contracts, each with several functions. The implement
 
 Check usage in `/example` folder to test some examples:
 To run the examples, follow the following steps:
-1. Navigate to the example folder and open `constants.dart`.
-2. Replace grpc address and port, e.g address: test.massa.net', grpc port: 33037. Note this information may be changed as Massa Blockchain Technology development progresses. Check the correct information on [Massa Documentation Website](https://docs.massa.net). Further note that, testnet or buildernet must be active for some examples to work, depending on your grpc configuration.
-3. Generate private key and address using Massa Station, Bearby, or by running the test in the section below. Please do not use your massa mainnet address for testing purposes.
-4. Request test tokens from massa discord server.
-5. To run a specific example, navigate to the given folder, and run the command `dart run example_filename.dart`
+1. Navigate to the example folder.
+2. To run a specific example, navigate to the given folder, and run the command `dart run example_folder_name/example_filename.dart`
 
-NOTE that all examples are tested and working with MASSA DEVNET 27.3.
 
 ## Testing
 To run the test cases, navigate to the project root folder and run `dart test`
 You need to have flutter/dart sdk installed in your machine.
-Please note that for grpc test, you need to configure grpc address and port. For some test, e.g getOperation test, you need to provide correct operation. Without proding correct information, grpc test will likely fail.
+
 
 ## Usage
 
@@ -114,27 +110,26 @@ NOTE: For smart contract examples, all the smart contracts are already deployed 
 
 The example below shows how to get list of stakers
 ```dart
+import 'package:dusa/dusa.dart';
 import 'package:massa/massa.dart';
 
-Future<void> main() async {
-  const ipAddress = 'buildnet.massa.net';
-  const port = 33037;
-  var grpc = GRPCPublicClient(ipAddress, port);
-  final stakers = await grpc.getStakers(limit: Int64(10));
-  if (stakers.isEmpty) {
-    print('No stakers found');
-    return;
-  }
+void main() async {
+  final wallet = Wallet();
+  final account = await wallet.addAccountFromSecretKey(Env.privateKey, AddressType.user, NetworkType.BUILDNET);
+  final quoter = Quoter(account);
+  final amountIn = doubleToMassaInt(200.00);
 
-  final totalAddresses = stakers.length;
-  Int64 totalRolls = Int64(0);
-  for (var staker in stakers) {
-    print('${staker.address}:${staker.rolls}');
-    totalRolls += staker.rolls;
-  }
-  print('Total addresses: $totalAddresses');
-  print('Total rolls: $totalRolls');
-  await grpc.shutDown();
+  final (route, pair, binSteps, amounts, amountsWithoutSlippage, fees) =
+      await quoter.findBestPathFromAmountIn(TokenName.WMAS, TokenName.USDC, BigInt.from(amountIn));
+  print('amount in: $amountIn');
+  print('route: $route');
+  print('pair: $pair');
+  print('bin steps: $binSteps');
+  final massaAmount = toMAS(amounts[0]);
+  final usdcAmount = bigIntToDecimal(amounts[1], getTokenDecimal(TokenName.USDC));
+  print('amounts: $amounts => $massaAmount MAS = $usdcAmount USDC');
+  print('amounts without slippage: $amountsWithoutSlippage');
+  print('fees: $fees');
 }
 ```
 
