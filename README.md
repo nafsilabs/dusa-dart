@@ -13,80 +13,80 @@ Dusa-dart is an SDK that is able to connect your Dart and Flutter applications t
 Dusa has a number of smart contracts, each with several functions. The implementation status of these functions are detailed below
 
 ### Factory
-- [ ] acceptOwnership
-- [ ] addQuoteAsset
-- [ ] createLBPair
-- [ ] forceDecay
-- [ ] getAllBinSteps
-- [ ] getAllLBPairs
-- [ ] getAvailableLBPairBinSteps
-- [ ] getLBPairInformation
-- [ ] getPreset
-- [ ] proposeNewOwner
-- [ ] receiveCoins
-- [ ] removePreset
-- [ ] removeQuoteAsset
-- [ ] setFactoryLockedState
-- [ ] setFeeRecipient
-- [ ] setFeesParametersOnPair
-- [ ] setFlashLoanFee
-- [ ] setLBPairIgnored
-- [ ] setPreset
+ [ ] acceptOwnership
+ [ ] addQuoteAsset
+ [ ] createLBPair
+ [ ] forceDecay
+ [ ] getAllBinSteps
+ [x] getAllLBPairs
+ [ ] getAvailableLBPairBinSteps
+ [x] getLBPairInformation
+ [ ] getPreset
+ [ ] proposeNewOwner
+ [ ] receiveCoins
+ [ ] removePreset
+ [ ] removeQuoteAsset
+ [ ] setFactoryLockedState
+ [ ] setFeeRecipient
+ [ ] setFeesParametersOnPair
+ [ ] setFlashLoanFee
+ [ ] setLBPairIgnored
+ [ ] setPreset
 
 ### Pair
-- [ ] balanceOf
-- [ ] balanceOfBatch
-- [ ] burn
-- [ ] collectFees
-- [ ] collectProtocolFees
-- [ ] findFirstNonEmptyBinId
-- [ ] flashLoan
-- [ ] forceDecay
-- [ ] getBin
-- [ ] getGlobalFees
-- [ ] getOracleParameters
-- [ ] getOracleSampleFrom
-- [ ] getPairInformation
-- [ ] getUserBins
-- [ ] increaseOracleLength
-- [ ] isApprovedForAll
-- [ ] mint
-- [ ] name
-- [ ] pendingFees
-- [ ] receiveCoins
-- [ ] safeBatchTransferFrom
-- [ ] safeTransferFrom
-- [ ] setApprovalForAll
-- [ ] setFeesParameters
-- [ ] swap
-- [ ] symbol
-- [ ] totalSupply
+ [ ] balanceOf
+ [ ] balanceOfBatch
+ [ ] burn
+ [ ] collectFees
+ [ ] collectProtocolFees
+ [ ] findFirstNonEmptyBinId
+ [ ] flashLoan
+ [ ] forceDecay
+ [ ] getBin
+ [ ] getGlobalFees
+ [ ] getOracleParameters
+ [ ] getOracleSampleFrom
+ [ ] getPairInformation
+ [ ] getUserBins
+ [ ] increaseOracleLength
+ [ ] isApprovedForAll
+ [ ] mint
+ [ ] name
+ [ ] pendingFees
+ [ ] receiveCoins
+ [ ] safeBatchTransferFrom
+ [ ] safeTransferFrom
+ [ ] setApprovalForAll
+ [ ] setFeesParameters
+ [ ] swap
+ [ ] symbol
+ [ ] totalSupply
 
 ### Quoter
-- [x] findBestPathFromAmountIn
-- [x] findBestPathFromAmountOut
+ [x] findBestPathFromAmountIn
+ [x] findBestPathFromAmountOut
 
 ### Router
-- [ ] addLiquidity
-- [ ] addLiquidityMAS
-- [ ] constructor
-- [ ] createLBPair
-- [x] getSwapIn
-- [x] getSwapOut
-- [ ] receiveCoins
-- [ ] removeLiquidity
-- [ ] removeLiquidityMAS
-- [x] swapExactMASForTokens
-- [ ] swapExactMASForTokensSupportingFeeOnTransferTokens
-- [x] swapExactTokensForMAS
-- [ ] swapExactTokensForMASSupportingFeeOnTransferTokens
-- [ ] swapExactTokensForTokens
-- [ ] swapExactTokensForTokensSupportingFeeOnTransferTokens
-- [ ] swapMASForExactTokens
-- [ ] swapTokensForExactMAS
-- [ ] swapTokensForExactTokens
-- [ ] sweep
-- [ ] sweepLBToken
+ [ ] addLiquidity
+ [ ] addLiquidityMAS
+ [ ] constructor
+ [ ] createLBPair
+ [x] getSwapIn
+ [x] getSwapOut
+ [ ] receiveCoins
+ [ ] removeLiquidity
+ [ ] removeLiquidityMAS
+ [x] swapExactMASForTokens
+ [ ] swapExactMASForTokensSupportingFeeOnTransferTokens
+ [x] swapExactTokensForMAS
+ [ ] swapExactTokensForMASSupportingFeeOnTransferTokens
+ [ ] swapExactTokensForTokens
+ [ ] swapExactTokensForTokensSupportingFeeOnTransferTokens
+ [ ] swapMASForExactTokens
+ [ ] swapTokensForExactMAS
+ [ ] swapTokensForExactTokens
+ [ ] sweep
+ [ ] sweepLBToken
 
 
 ## Getting started
@@ -155,7 +155,7 @@ You can get more information about massa by visiting the links below.
 This project is supported by [massa](https://massa.net)
 
 ### Contribute
-You can contribute to this package, request new features or report any bug by visiting the package repository at [massa-dart](https://github.com/jwmdev/massa-dart)
+You can contribute to this package, request new features or report any bug by visiting the package repository at [dusa-dart](https://github.com/nafsilabs/dusa-dart)
 
 
 ## License
@@ -166,7 +166,7 @@ The MIT License (MIT). Please see [License File](LICENSE) for more information.
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [pub-dev-shield]: https://img.shields.io/pub/v/dusa?style=for-the-badge
 [pub-dev-url]: https://pub.dev/packages/dusa
-[stars-shield]: https://img.shields.io/github/stars/jwmdev/massa-dart.svg?style=for-the-badge&logo=github&colorB=deeppink&label=stars
+[stars-shield]: https://img.shields.io/github/stars/nafsilabs/dusa-dart.svg?style=for-the-badge&logo=github&colorB=deeppink&label=stars
 [stars-url]: https://packagist.org/packages/nafsilabs/dusa-dart
 [issues-shield]: https://img.shields.io/github/issues/nafsilabs/dusa-dart.svg?style=for-the-badge
 [issues-url]: https://github.com/nafsilabs/dusa-dart/issues

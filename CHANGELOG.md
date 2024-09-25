@@ -1,6 +1,9 @@
+## 1.0.2
+
+- Improved package documentation
 ## 1.0.1
 
-- Miner changes on documentation
+- Minor changes on documentation
 
 
 ## 1.0.0
