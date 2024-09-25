@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Improved package documentation
+
 ## 1.0.2
 
 - Improved package documentation

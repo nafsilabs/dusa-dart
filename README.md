@@ -13,80 +13,79 @@ Dusa-dart is an SDK that is able to connect your Dart and Flutter applications t
 Dusa has a number of smart contracts, each with several functions. The implementation status of these functions are detailed below
 
 ### Factory
- [ ] acceptOwnership
- [ ] addQuoteAsset
- [ ] createLBPair
- [ ] forceDecay
- [ ] getAllBinSteps
- [x] getAllLBPairs
- [ ] getAvailableLBPairBinSteps
- [x] getLBPairInformation
- [ ] getPreset
- [ ] proposeNewOwner
- [ ] receiveCoins
- [ ] removePreset
- [ ] removeQuoteAsset
- [ ] setFactoryLockedState
- [ ] setFeeRecipient
- [ ] setFeesParametersOnPair
- [ ] setFlashLoanFee
- [ ] setLBPairIgnored
- [ ] setPreset
+- [ ] acceptOwnership
+- [ ] addQuoteAsset
+- [ ] createLBPair
+- [ ] forceDecay
+- [ ] getAllBinSteps
+- [x] getAllLBPairs
+- [ ] getAvailableLBPairBinSteps
+- [x] getLBPairInformation
+- [ ] getPreset
+- [ ] proposeNewOwner
+- [ ] receiveCoins
+- [ ] removePreset
+- [ ] removeQuoteAsset
+- [ ] setFactoryLockedState
+- [ ] setFeeRecipient
+- [ ] setFeesParametersOnPair
+- [ ] setFlashLoanFee
+- [ ] setLBPairIgnored
+- [ ] setPreset
 
 ### Pair
- [ ] balanceOf
- [ ] balanceOfBatch
- [ ] burn
- [ ] collectFees
- [ ] collectProtocolFees
- [ ] findFirstNonEmptyBinId
- [ ] flashLoan
- [ ] forceDecay
- [ ] getBin
- [ ] getGlobalFees
- [ ] getOracleParameters
- [ ] getOracleSampleFrom
- [ ] getPairInformation
- [ ] getUserBins
- [ ] increaseOracleLength
- [ ] isApprovedForAll
- [ ] mint
- [ ] name
- [ ] pendingFees
- [ ] receiveCoins
- [ ] safeBatchTransferFrom
- [ ] safeTransferFrom
- [ ] setApprovalForAll
- [ ] setFeesParameters
- [ ] swap
- [ ] symbol
- [ ] totalSupply
+- [ ] balanceOf
+- [ ] balanceOfBatch
+- [ ] burn
+- [ ] collectFees
+- [ ] collectProtocolFees
+- [ ] findFirstNonEmptyBinId
+- [ ] flashLoan
+- [ ] forceDecay
+- [ ] getBin
+- [ ] getGlobalFees
+- [ ] getOracleParameters
+- [ ] getOracleSampleFrom
+- [ ] getPairInformation
+- [ ] getUserBins
+- [ ] increaseOracleLength
+- [ ] isApprovedForAll
+- [ ] mint
+- [ ] name
+- [ ] pendingFees
+- [ ] receiveCoins
+- [ ] safeBatchTransferFrom
+- [ ] safeTransferFrom
+- [ ] setApprovalForAll
+- [ ] setFeesParameters
+- [ ] swap
+- [ ] symbol
+- [ ] totalSupply
 
 ### Quoter
- [x] findBestPathFromAmountIn
- [x] findBestPathFromAmountOut
+- [x] findBestPathFromAmountIn
+- [x] findBestPathFromAmountOut
 
 ### Router
- [ ] addLiquidity
- [ ] addLiquidityMAS
- [ ] constructor
- [ ] createLBPair
- [x] getSwapIn
- [x] getSwapOut
- [ ] receiveCoins
- [ ] removeLiquidity
- [ ] removeLiquidityMAS
- [x] swapExactMASForTokens
- [ ] swapExactMASForTokensSupportingFeeOnTransferTokens
- [x] swapExactTokensForMAS
- [ ] swapExactTokensForMASSupportingFeeOnTransferTokens
- [ ] swapExactTokensForTokens
- [ ] swapExactTokensForTokensSupportingFeeOnTransferTokens
- [ ] swapMASForExactTokens
- [ ] swapTokensForExactMAS
- [ ] swapTokensForExactTokens
- [ ] sweep
- [ ] sweepLBToken
+- [ ] addLiquidity
+- [ ] addLiquidityMAS
+- [ ] createLBPair
+- [x] getSwapIn
+- [x] getSwapOut
+- [ ] receiveCoins
+- [ ] removeLiquidity
+- [ ] removeLiquidityMAS
+- [x] swapExactMASForTokens
+- [ ] swapExactMASForTokensSupportingFeeOnTransferTokens
+- [x] swapExactTokensForMAS
+- [ ] swapExactTokensForMASSupportingFeeOnTransferTokens
+- [ ] swapExactTokensForTokens
+- [ ] swapExactTokensForTokensSupportingFeeOnTransferTokens
+- [ ] swapMASForExactTokens
+- [ ] swapTokensForExactMAS
+- [ ] swapTokensForExactTokens
+- [ ] sweep
+- [ ] sweepLBToken
 
 
 ## Getting started
