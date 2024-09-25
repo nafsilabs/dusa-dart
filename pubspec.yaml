@@ -1,6 +1,6 @@
 name: dusa
 description: Dusa package  is an SDK that connects your Dart and Flutter applications to Dusa - a decentralized exchange (DEX) built on the Massa blockchain.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/nafsilabs/dusa
 homepage: https://nafsi.world
 

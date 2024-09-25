@@ -164,11 +164,11 @@ The MIT License (MIT). Please see [License File](LICENSE) for more information.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[pub-dev-shield]: https://img.shields.io/pub/v/massa?style=for-the-badge
-[pub-dev-url]: https://pub.dev/packages/massa
+[pub-dev-shield]: https://img.shields.io/pub/v/dusa?style=for-the-badge
+[pub-dev-url]: https://pub.dev/packages/dusa
 [stars-shield]: https://img.shields.io/github/stars/jwmdev/massa-dart.svg?style=for-the-badge&logo=github&colorB=deeppink&label=stars
-[stars-url]: https://packagist.org/packages/jwmdev/massa-dart
-[issues-shield]: https://img.shields.io/github/issues/jwmdev/massa-dart.svg?style=for-the-badge
-[issues-url]: https://github.com/jwmdev/massa-dart/issues
-[license-shield]: https://img.shields.io/github/license/jwmdev/massa-dart.svg?style=for-the-badge
-[license-url]: https://github.com/jwmdev/massa-dart/blob/main/LICENSE
+[stars-url]: https://packagist.org/packages/nafsilabs/dusa-dart
+[issues-shield]: https://img.shields.io/github/issues/nafsilabs/dusa-dart.svg?style=for-the-badge
+[issues-url]: https://github.com/nafsilabs/dusa-dart/issues
+[license-shield]: https://img.shields.io/github/license/nafsilabs/dusa-dart.svg?style=for-the-badge
+[license-url]: https://github.com/nafsilabs/dusa-dart/blob/main/LICENSE
