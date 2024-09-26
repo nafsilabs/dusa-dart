@@ -10,7 +10,7 @@ import 'package:dusa/swap.dart';
 import 'package:dusa/env/env.dart';
 
 void main() async {
-  final isBuildnet = false;
+  final isBuildnet = true;
   final wallet = Wallet();
   final account = await wallet.addAccountFromSecretKey(
       Env.privateKey, AddressType.user, isBuildnet ? NetworkType.BUILDNET : NetworkType.MAINNET);
@@ -19,7 +19,7 @@ void main() async {
 
   final amountIn = doubleToMassaInt(2.00);
 
-// 10 MAS to USDC
+// swap exact 10 MAS to USDC
   final (route, pair, binSteps, amounts, amountsWithoutSlippage, fees) =
       await quoter.findBestPathFromAmountIn(TokenName.WMAS, TokenName.USDC, BigInt.from(amountIn));
   print('amount in: $amountIn');
@@ -37,7 +37,7 @@ void main() async {
   print('response: $result');
   print("");
 
-  // 10 MAS to WETH
+  // swap exact 10 MAS to WETH
   final (route2, pair2, binSteps2, amounts2, amountsWithoutSlippage2, fees2) =
       await quoter.findBestPathFromAmountIn(TokenName.WMAS, TokenName.WETH, BigInt.from(amountIn));
   print('amount in: $amountIn');

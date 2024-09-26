@@ -77,12 +77,12 @@ Dusa has a number of smart contracts, each with several functions. The implement
 - [ ] removeLiquidityMAS
 - [x] swapExactMASForTokens
 - [ ] swapExactMASForTokensSupportingFeeOnTransferTokens
-- [x] swapExactTokensForMAS
+- [ ] swapExactTokensForMAS
 - [ ] swapExactTokensForMASSupportingFeeOnTransferTokens
 - [ ] swapExactTokensForTokens
 - [ ] swapExactTokensForTokensSupportingFeeOnTransferTokens
 - [ ] swapMASForExactTokens
-- [ ] swapTokensForExactMAS
+- [x] swapTokensForExactMAS
 - [ ] swapTokensForExactTokens
 - [ ] sweep
 - [ ] sweepLBToken
@@ -133,7 +133,7 @@ void main() async {
 ```
 
 ## Additional information
-You can get more information about massa by visiting the links below.
+You can get more information about Dusa by visiting the links below.
 ### Links
 - [Dusa: Dusa official website](https://dusa.io)
 - [Dusa App](https://app.dusa.io)
@@ -151,7 +151,7 @@ You can get more information about massa by visiting the links below.
 - [Massa Dart SDK documentation](https://pub.dev/documentation/massa/latest/massa/massa-library.html)
 
 ### Support
-This project is supported by [massa](https://massa.net)
+Part of this project is supported by [Massa Foundation](https://massa.foundation)
 
 ### Contribute
 You can contribute to this package, request new features or report any bug by visiting the package repository at [dusa-dart](https://github.com/nafsilabs/dusa-dart)

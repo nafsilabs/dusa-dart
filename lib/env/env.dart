@@ -2,7 +2,6 @@ class Env {
   static const grpcBuildnetHost = String.fromEnvironment(
     'grpc_buildnet_host',
     defaultValue: 'buildnet.massa.net',
-    //defaultValue: 'mainnet.massa.net',
   );
   static const grpcMainnetHost = String.fromEnvironment(
     'grpc_mainnet_host',
@@ -13,7 +12,11 @@ class Env {
     defaultValue: 33037,
   );
 
-  static const jrpcHost = String.fromEnvironment(
+  static const jrpcBuildnetHost = String.fromEnvironment(
+    'jrpc_host',
+    defaultValue: 'buildnet.massa.net',
+  );
+  static const jrpcMainnetHost = String.fromEnvironment(
     'jrpc_host',
     defaultValue: 'mainnet.massa.net',
   );
@@ -28,6 +31,6 @@ class Env {
   static const privateKey = String.fromEnvironment(
     'privateKey',
     defaultValue:
-        "S1R3W8t9tRBxxRsULe2cLJXX1moAragCzKh8gVxB8PBLJdA4vCD", //this private key is used for testing only. Never use it as it is publicly avaiable.
+        "S1R3W8t9tRBxxRsULe2cLJXX1moAragCzKh8gVxB8PBLJdA4vCD", //this private key is used for testing only. Never use it as it is publicly accessible. Never expose or share your private key.
   );
 }

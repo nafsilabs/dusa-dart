@@ -1,3 +1,7 @@
+## 1.0.4
+
+- Improved library examples
+
 ## 1.0.3
 
 - Improved package documentation
