@@ -1,8 +1,18 @@
+/// CommonConstants defines commonly used constants across dusa package
 class CommonConstants {
-  static const double minimumFee = 0.01; //MAS
+  /// minimum transaction fee
+  static const double minimumFee = 0.01;
+
+  /// waiting status before timeout
   static const Duration waitStatusTimeout = Duration(seconds: 60); //60000 ms
+
+  /// waiting time for the operation status before timeout
   static const Duration waitOperationTimeout = Duration(seconds: 160); //160000 ms
+
+  /// polling interval
   static const Duration txPollIntervals = Duration(seconds: 1); //1000 ms
+
+  /// typical transaction deadline
   static const int txDeadline = 2 * 60 * 1000; //in ms (2 minutes)
 }
 
