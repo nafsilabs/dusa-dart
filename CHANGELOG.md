@@ -1,5 +1,9 @@
 ## 1.0.4
 
+- Improved the package to comply with dart package requirements
+
+## 1.0.4
+
 - Improved library examples
 
 ## 1.0.3

@@ -12,7 +12,8 @@ class Factory {
   }
 
   /// getAllLBPairs returns pairs information
-  Future<(int, String, bool, bool)> getAllLBPairs(TokenName token1, TokenName token2) async {
+  Future<(int, String, bool, bool)> getAllLBPairs(
+      TokenName token1, TokenName token2) async {
     final params = Args();
     params.addString(getTokenAddress(token1, isBuildnet));
     params.addString(getTokenAddress(token2, isBuildnet));
@@ -36,7 +37,8 @@ class Factory {
   }
 
   /// getPairInformation returns bin information including bin steps and LBPair address
-  Future<(int, String, bool, bool)> getPairInformation(TokenName token1, TokenName token2, int binSteps) async {
+  Future<(int, String, bool, bool)> getPairInformation(
+      TokenName token1, TokenName token2, int binSteps) async {
     final params = Args();
     params.addString(getTokenAddress(token1, isBuildnet));
     params.addString(getTokenAddress(token2, isBuildnet));

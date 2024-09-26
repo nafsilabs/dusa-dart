@@ -159,7 +159,9 @@ class Token {
 
   Future<void> increaseAllowance(BigInt amount) async {
     final params = Args();
-    params.addString(isBuildnet ? BuildnetConstants.routerAddress : MainnetConstants.routerAddress); //spender address
+    params.addString(isBuildnet
+        ? BuildnetConstants.routerAddress
+        : MainnetConstants.routerAddress); //spender address
     params.addU256(amount);
     const targetFunction = "increaseAllowance";
     final functionParameters = params.serialise();
@@ -183,13 +185,19 @@ String getTokenAddress(TokenName token, bool isBuildnet) {
   String tokenAddress = '';
   switch (token) {
     case TokenName.WMAS:
-      tokenAddress = isBuildnet ? BuildnetConstants.wmasAddress : MainnetConstants.wmasAddress;
+      tokenAddress = isBuildnet
+          ? BuildnetConstants.wmasAddress
+          : MainnetConstants.wmasAddress;
       break;
     case TokenName.USDC:
-      tokenAddress = isBuildnet ? BuildnetConstants.usdcAddress : MainnetConstants.usdcAddress;
+      tokenAddress = isBuildnet
+          ? BuildnetConstants.usdcAddress
+          : MainnetConstants.usdcAddress;
       break;
     case TokenName.WETH:
-      tokenAddress = isBuildnet ? BuildnetConstants.wethAddress : MainnetConstants.wethAddress;
+      tokenAddress = isBuildnet
+          ? BuildnetConstants.wethAddress
+          : MainnetConstants.wethAddress;
       break;
     default:
       throw Exception("Unknown token name: ${token.name}");

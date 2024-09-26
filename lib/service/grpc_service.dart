@@ -53,8 +53,8 @@ class GrpcServiceImpl implements GrpcService {
       required String callerAddress}) async {
     try {
       final fee = minimumFee;
-      final response = await _grpc.executeReadOnlyCall(
-          fee, maximumGas, smartContracAddress, functionName, functionParameters,
+      final response = await _grpc.executeReadOnlyCall(fee, maximumGas,
+          smartContracAddress, functionName, functionParameters,
           callerAddress: callerAddress);
       return Uint8List.fromList(response.callResult);
     } catch (error) {
@@ -73,9 +73,10 @@ class GrpcServiceImpl implements GrpcService {
       required Uint8List functionParameters}) async {
     try {
       final status = await _grpc.getStatus();
-      final expirePeriod = status.lastExecutedFinalSlot.period + status.config.operationValidityPeriods;
-      final operation = await callSC(
-          account, smartContracAddress, functionName, functionParameters, fee, maximumGas, coins, expirePeriod.toInt());
+      final expirePeriod = status.lastExecutedFinalSlot.period +
+          status.config.operationValidityPeriods;
+      final operation = await callSC(account, smartContracAddress, functionName,
+          functionParameters, fee, maximumGas, coins, expirePeriod.toInt());
       String operationID = "";
       await for (final resp in _grpc.sendOperations([operation])) {
         if (resp.operationIds.operationIds.isEmpty) {
@@ -98,8 +99,9 @@ class GrpcServiceImpl implements GrpcService {
       timeoutReached = true;
     });
 
-    final filter =
-        NewSlotExecutionOutputsFilter(executedOpsChangesFilter: ExecutedOpsChangesFilter(operationId: operationID));
+    final filter = NewSlotExecutionOutputsFilter(
+        executedOpsChangesFilter:
+            ExecutedOpsChangesFilter(operationId: operationID));
     await for (var resp in _grpc.newSlotExecutionOutputs(filters: [filter])) {
       if (resp.status == ExecutionOutputStatus.EXECUTION_OUTPUT_STATUS_FINAL) {
         timeoutTimer.cancel();
