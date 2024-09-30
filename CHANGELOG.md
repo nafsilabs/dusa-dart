@@ -1,3 +1,7 @@
+## 1.0.7
+
+- Updated masa dependance
+
 ## 1.0.6
 
 - Improved package examples and formats
