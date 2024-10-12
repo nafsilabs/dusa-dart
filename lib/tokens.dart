@@ -7,13 +7,9 @@ import 'package:massa/massa.dart';
 enum TokenName { WMAS, USDC, WETH }
 
 class Token {
-  final Account account;
-  final bool isBuildnet;
   final TokenName token;
-  late GrpcService grpc;
-  Token(this.account, this.token, {this.isBuildnet = true}) {
-    grpc = GrpcServiceImpl(isBuildnet);
-  }
+  final GrpcServiceImpl grpc;
+  Token({required this.grpc, required this.token});
 
   /// balanceOf  gets the balance of the given address
   Future<BigInt> balanceOf(String address) async {
@@ -23,14 +19,14 @@ class Token {
     const targetFunction = "balanceOf";
     final functionParameters = params.serialise();
     const maximumGas = GasLimit.MAX_GAS_CALL;
-    final smartContracAddress = getTokenAddress(token, isBuildnet);
+    final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-        maximumGas: maximumGas.value / 1e9,
-        smartContracAddress: smartContracAddress,
-        functionName: targetFunction,
-        functionParameters: functionParameters,
-        callerAddress: account.address());
+      maximumGas: maximumGas.value / 1e9,
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: functionParameters,
+    );
 
     final responseArg = Args(initialData: response);
     final balance = responseArg.nextU256();
@@ -43,14 +39,14 @@ class Token {
     const targetFunction = "totalSupply";
     final functionParameters = params.serialise();
     const maximumGas = GasLimit.MAX_GAS_CALL;
-    final smartContracAddress = getTokenAddress(token, isBuildnet);
+    final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-        maximumGas: maximumGas.value / 1e9,
-        smartContracAddress: smartContracAddress,
-        functionName: targetFunction,
-        functionParameters: functionParameters,
-        callerAddress: account.address());
+      maximumGas: maximumGas.value / 1e9,
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: functionParameters,
+    );
 
     final responseArg = Args(initialData: response);
     final totalSupply = responseArg.nextU256();
@@ -63,14 +59,14 @@ class Token {
     const targetFunction = "decimals";
     final functionParameters = params.serialise();
     const maximumGas = GasLimit.MAX_GAS_CALL;
-    final smartContracAddress = getTokenAddress(token, isBuildnet);
+    final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-        maximumGas: maximumGas.value / 1e9,
-        smartContracAddress: smartContracAddress,
-        functionName: targetFunction,
-        functionParameters: functionParameters,
-        callerAddress: account.address());
+      maximumGas: maximumGas.value / 1e9,
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: functionParameters,
+    );
 
     final responseArg = Args(initialData: response);
     final decimals = responseArg.nextU8();
@@ -83,14 +79,14 @@ class Token {
     const targetFunction = "name";
     final functionParameters = params.serialise();
     const maximumGas = GasLimit.MAX_GAS_CALL;
-    final smartContracAddress = getTokenAddress(token, isBuildnet);
+    final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-        maximumGas: maximumGas.value / 1e9,
-        smartContracAddress: smartContracAddress,
-        functionName: targetFunction,
-        functionParameters: functionParameters,
-        callerAddress: account.address());
+      maximumGas: maximumGas.value / 1e9,
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: functionParameters,
+    );
 
     final responseArg = Args(initialData: response);
     final name = responseArg.nextString();
@@ -103,14 +99,14 @@ class Token {
     const targetFunction = "symbol";
     final functionParameters = params.serialise();
     const maximumGas = GasLimit.MAX_GAS_CALL;
-    final smartContracAddress = getTokenAddress(token, isBuildnet);
+    final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-        maximumGas: maximumGas.value / 1e9,
-        smartContracAddress: smartContracAddress,
-        functionName: targetFunction,
-        functionParameters: functionParameters,
-        callerAddress: account.address());
+      maximumGas: maximumGas.value / 1e9,
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: functionParameters,
+    );
 
     final responseArg = Args(initialData: response);
     final name = responseArg.nextString();
@@ -124,10 +120,10 @@ class Token {
     const targetFunction = "approve";
     final functionParameters = params.serialise();
     const maximumGas = GasLimit.MAX_GAS_CALL;
-    final smartContracAddress = getTokenAddress(token, isBuildnet);
+    final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     await grpc.scCall(
-      account: account,
+      account: grpc.account,
       fee: 0.01,
       coins: 0.0,
       maximumGas: maximumGas.value / 1e9,
@@ -144,10 +140,10 @@ class Token {
     const targetFunction = "transfer";
     final functionParameters = params.serialise();
     const maximumGas = GasLimit.MAX_GAS_CALL;
-    final smartContracAddress = getTokenAddress(token, isBuildnet);
+    final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     await grpc.scCall(
-      account: account,
+      account: grpc.account,
       fee: 0.01,
       coins: 0.0,
       maximumGas: maximumGas.value / 1e9,
@@ -159,17 +155,16 @@ class Token {
 
   Future<void> increaseAllowance(BigInt amount) async {
     final params = Args();
-    params.addString(isBuildnet
-        ? BuildnetConstants.routerAddress
-        : MainnetConstants.routerAddress); //spender address
+    params.addString(
+        grpc.isBuildnet ? BuildnetConstants.routerAddress : MainnetConstants.routerAddress); //spender address
     params.addU256(amount);
     const targetFunction = "increaseAllowance";
     final functionParameters = params.serialise();
     final maximumGas = toMAS(BigInt.from(GasLimit.MAX_GAS_CALL.value));
-    final smartContracAddress = getTokenAddress(token, isBuildnet);
+    final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     await grpc.scCall(
-      account: account,
+      account: grpc.account,
       fee: 0.01,
       coins: 0.0,
       maximumGas: maximumGas,
@@ -185,19 +180,13 @@ String getTokenAddress(TokenName token, bool isBuildnet) {
   String tokenAddress = '';
   switch (token) {
     case TokenName.WMAS:
-      tokenAddress = isBuildnet
-          ? BuildnetConstants.wmasAddress
-          : MainnetConstants.wmasAddress;
+      tokenAddress = isBuildnet ? BuildnetConstants.wmasAddress : MainnetConstants.wmasAddress;
       break;
     case TokenName.USDC:
-      tokenAddress = isBuildnet
-          ? BuildnetConstants.usdcAddress
-          : MainnetConstants.usdcAddress;
+      tokenAddress = isBuildnet ? BuildnetConstants.usdcAddress : MainnetConstants.usdcAddress;
       break;
     case TokenName.WETH:
-      tokenAddress = isBuildnet
-          ? BuildnetConstants.wethAddress
-          : MainnetConstants.wethAddress;
+      tokenAddress = isBuildnet ? BuildnetConstants.wethAddress : MainnetConstants.wethAddress;
       break;
     default:
       throw Exception("Unknown token name: ${token.name}");

@@ -4,19 +4,14 @@ import 'package:dusa/tokens.dart';
 import 'package:dusa/service/grpc_service.dart';
 
 class Factory {
-  final bool isBuildnet;
-  final Account account;
-  late GrpcService grpc;
-  Factory(this.account, {this.isBuildnet = true}) {
-    grpc = GrpcServiceImpl(isBuildnet);
-  }
+  late GrpcServiceImpl grpc;
+  Factory(this.grpc);
 
   /// getAllLBPairs returns pairs information
-  Future<(int, String, bool, bool)> getAllLBPairs(
-      TokenName token1, TokenName token2) async {
+  Future<(int, String, bool, bool)> getAllLBPairs(TokenName token1, TokenName token2) async {
     final params = Args();
-    params.addString(getTokenAddress(token1, isBuildnet));
-    params.addString(getTokenAddress(token2, isBuildnet));
+    params.addString(getTokenAddress(token1, grpc.isBuildnet));
+    params.addString(getTokenAddress(token2, grpc.isBuildnet));
 
     const targetFunction = "getAllLBPairs";
     const smartContracAddress = BuildnetConstants.factoryAddress;
@@ -24,8 +19,7 @@ class Factory {
         maximumGas: CommonConstants.minimumFee,
         smartContracAddress: smartContracAddress,
         functionName: targetFunction,
-        functionParameters: params.serialise(),
-        callerAddress: account.address());
+        functionParameters: params.serialise());
     await grpc.close();
 
     final responseArg = Args(initialData: response);
@@ -37,21 +31,20 @@ class Factory {
   }
 
   /// getPairInformation returns bin information including bin steps and LBPair address
-  Future<(int, String, bool, bool)> getPairInformation(
-      TokenName token1, TokenName token2, int binSteps) async {
+  Future<(int, String, bool, bool)> getPairInformation(TokenName token1, TokenName token2, int binSteps) async {
     final params = Args();
-    params.addString(getTokenAddress(token1, isBuildnet));
-    params.addString(getTokenAddress(token2, isBuildnet));
+    params.addString(getTokenAddress(token1, grpc.isBuildnet));
+    params.addString(getTokenAddress(token2, grpc.isBuildnet));
     params.addU32(binSteps);
 
     const targetFunction = "getLBPairInformation";
     const smartContracAddress = BuildnetConstants.factoryAddress;
     final response = await grpc.scReadOnlyCall(
-        maximumGas: CommonConstants.minimumFee,
-        smartContracAddress: smartContracAddress,
-        functionName: targetFunction,
-        functionParameters: params.serialise(),
-        callerAddress: account.address());
+      maximumGas: CommonConstants.minimumFee,
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: params.serialise(),
+    );
     //await grpc.close();
 
     final responseArg = Args(initialData: response);

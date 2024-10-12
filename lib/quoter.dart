@@ -4,12 +4,9 @@ import 'package:dusa/tokens.dart';
 import 'package:dusa/service/grpc_service.dart';
 
 class Quoter {
-  late GrpcService grpc;
-  final bool isBuildnet;
-  final Account account;
-  Quoter(this.account, {this.isBuildnet = true}) {
-    grpc = GrpcServiceImpl(isBuildnet);
-  }
+  final GrpcServiceImpl grpc;
+
+  Quoter(this.grpc);
 
   /// findBestPathFromAmountIn retrives the best path of a given token pair
   Future<(List, List, List, List, List, List)> findBestPathFromAmountIn(
@@ -26,27 +23,21 @@ class Quoter {
   Future<(List, List, List, List, List, List)> _findBestPath(
       TokenName token1, TokenName token2, BigInt amount, bool isExactIn) async {
     final params = Args();
-    final routes = [
-      getTokenAddress(token1, isBuildnet),
-      getTokenAddress(token2, isBuildnet)
-    ];
+    final routes = [getTokenAddress(token1, grpc.isBuildnet), getTokenAddress(token2, grpc.isBuildnet)];
     params.addArray(routes, ArrayTypes.STRING);
     params.addU256(amount);
     params.addBool(isExactIn);
-    final targetFunction =
-        isExactIn ? "findBestPathFromAmountIn" : "findBestPathFromAmountOut";
+    final targetFunction = isExactIn ? "findBestPathFromAmountIn" : "findBestPathFromAmountOut";
     final functionParameters = params.serialise();
     const maximumGas = GasLimit.MAX_GAS_CALL;
-    final smartContracAddress = isBuildnet
-        ? BuildnetConstants.quoterAddress
-        : MainnetConstants.quoterAddress;
+    final smartContracAddress = grpc.isBuildnet ? BuildnetConstants.quoterAddress : MainnetConstants.quoterAddress;
 
     final response = await grpc.scReadOnlyCall(
-        maximumGas: toMAS(BigInt.from(maximumGas.value)),
-        smartContracAddress: smartContracAddress,
-        functionName: targetFunction,
-        functionParameters: functionParameters,
-        callerAddress: account.address());
+      maximumGas: toMAS(BigInt.from(maximumGas.value)),
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: functionParameters,
+    );
     final responseArg = Args(initialData: response);
     final route = responseArg.nextArray(ArrayTypes.STRING);
     final pair = responseArg.nextArray(ArrayTypes.STRING);

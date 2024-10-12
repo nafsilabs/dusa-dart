@@ -16,12 +16,12 @@ import 'package:dusa/env/env.dart';
 
 abstract interface class GrpcService {
   /// scReadOnlyCall reads only smart contracts
-  Future<Uint8List> scReadOnlyCall(
-      {required double maximumGas,
-      required String smartContracAddress,
-      required String functionName,
-      required Uint8List functionParameters,
-      required String callerAddress});
+  Future<Uint8List> scReadOnlyCall({
+    required double maximumGas,
+    required String smartContracAddress,
+    required String functionName,
+    required Uint8List functionParameters,
+  });
 
   /// scCall executes smart contract
   Future<(String, bool)> scCall(
@@ -36,26 +36,27 @@ abstract interface class GrpcService {
 }
 
 class GrpcServiceImpl implements GrpcService {
+  final Account account;
   final bool isBuildnet;
   late GRPCPublicClient _grpc;
 
-  GrpcServiceImpl(this.isBuildnet) {
+  GrpcServiceImpl({required this.account, required this.isBuildnet}) {
     final host = isBuildnet ? Env.grpcBuildnetHost : Env.grpcMainnetHost;
     _grpc = GRPCPublicClient(host, Env.grpcPort);
   }
 
   @override
-  Future<Uint8List> scReadOnlyCall(
-      {required double maximumGas,
-      required String smartContracAddress,
-      required String functionName,
-      required Uint8List functionParameters,
-      required String callerAddress}) async {
+  Future<Uint8List> scReadOnlyCall({
+    required double maximumGas,
+    required String smartContracAddress,
+    required String functionName,
+    required Uint8List functionParameters,
+  }) async {
     try {
       final fee = minimumFee;
-      final response = await _grpc.executeReadOnlyCall(fee, maximumGas,
-          smartContracAddress, functionName, functionParameters,
-          callerAddress: callerAddress);
+      final response = await _grpc.executeReadOnlyCall(
+          fee, maximumGas, smartContracAddress, functionName, functionParameters,
+          callerAddress: account.address());
       return Uint8List.fromList(response.callResult);
     } catch (error) {
       throw Exception(error);
@@ -73,10 +74,9 @@ class GrpcServiceImpl implements GrpcService {
       required Uint8List functionParameters}) async {
     try {
       final status = await _grpc.getStatus();
-      final expirePeriod = status.lastExecutedFinalSlot.period +
-          status.config.operationValidityPeriods;
-      final operation = await callSC(account, smartContracAddress, functionName,
-          functionParameters, fee, maximumGas, coins, expirePeriod.toInt());
+      final expirePeriod = status.lastExecutedFinalSlot.period + status.config.operationValidityPeriods;
+      final operation = await callSC(
+          account, smartContracAddress, functionName, functionParameters, fee, maximumGas, coins, expirePeriod.toInt());
       String operationID = "";
       await for (final resp in _grpc.sendOperations([operation])) {
         if (resp.operationIds.operationIds.isEmpty) {
@@ -99,9 +99,8 @@ class GrpcServiceImpl implements GrpcService {
       timeoutReached = true;
     });
 
-    final filter = NewSlotExecutionOutputsFilter(
-        executedOpsChangesFilter:
-            ExecutedOpsChangesFilter(operationId: operationID));
+    final filter =
+        NewSlotExecutionOutputsFilter(executedOpsChangesFilter: ExecutedOpsChangesFilter(operationId: operationID));
     await for (var resp in _grpc.newSlotExecutionOutputs(filters: [filter])) {
       if (resp.status == ExecutionOutputStatus.EXECUTION_OUTPUT_STATUS_FINAL) {
         timeoutTimer.cancel();

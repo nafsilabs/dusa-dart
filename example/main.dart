@@ -3,6 +3,7 @@
 import 'package:dusa/constants.dart';
 import 'package:dusa/helpers.dart';
 import 'package:dusa/quoter.dart';
+import 'package:dusa/service/grpc_service.dart';
 import 'package:dusa/tokens.dart';
 import 'package:massa/massa.dart';
 import 'package:dusa/swap.dart';
@@ -13,8 +14,10 @@ void main() async {
   final wallet = Wallet();
   final account = await wallet.addAccountFromSecretKey(
       Env.privateKey, AddressType.user, isBuildnet ? NetworkType.BUILDNET : NetworkType.MAINNET);
-  final swap = Swap(account, isBuildnet: isBuildnet);
-  final quoter = Quoter(account, isBuildnet: isBuildnet);
+  final grpc = GrpcServiceImpl(account: account, isBuildnet: isBuildnet);
+
+  final swap = Swap(grpc);
+  final quoter = Quoter(grpc);
 
   final amountIn = doubleToMassaInt(2.00);
 
