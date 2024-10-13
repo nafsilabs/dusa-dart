@@ -32,12 +32,13 @@ abstract interface class GrpcService {
       required String smartContracAddress,
       required String functionName,
       required Uint8List functionParameters});
+
   Future<void> close();
 }
 
 class GrpcServiceImpl implements GrpcService {
-  final Account account;
-  final bool isBuildnet;
+  late Account account;
+  late bool isBuildnet;
   late GRPCPublicClient _grpc;
 
   GrpcServiceImpl({required this.account, required this.isBuildnet}) {

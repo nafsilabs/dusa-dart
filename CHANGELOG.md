@@ -1,3 +1,8 @@
+
+## 1.0.9
+
+- Minor grpc service improvement
+
 ## 1.0.8
 
 - Improved grpc service
