@@ -4,7 +4,7 @@ import 'package:dusa/constants.dart';
 import 'package:dusa/service/grpc_service.dart';
 import 'package:massa/massa.dart';
 
-enum TokenName { WMAS, USDC, WETH }
+enum TokenName { MAS, WMAS, USDC, WETH }
 
 class Token {
   final TokenName token;

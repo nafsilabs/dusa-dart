@@ -1,5 +1,9 @@
 
-## 1.0.9
+
+## 1.1.0
+
+- Added wrap and unwrap functions
+
 
 - Minor grpc service improvement
 

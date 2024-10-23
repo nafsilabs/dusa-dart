@@ -1,3 +1,4 @@
+import 'package:dusa/tokens.dart';
 import 'package:massa/massa.dart';
 import 'package:dusa/constants.dart';
 import 'package:dusa/service/grpc_service.dart';
@@ -108,6 +109,44 @@ class Swap {
       account: grpc.account,
       fee: minimumFee,
       coins: coins,
+      maximumGas: maximumGas,
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: functionParameters,
+    );
+  }
+
+  /// wrap wraps MAS coin to WMAS
+
+  Future<(String, bool)> wrap(double amount) async {
+    final params = Args();
+    const targetFunction = "deposit";
+    final functionParameters = params.serialise();
+    final maximumGas = toMAS(BigInt.from(GasLimit.MAX_GAS_CALL.value));
+    final smartContracAddress = getTokenAddress(TokenName.WMAS, grpc.isBuildnet);
+    return await grpc.scCall(
+      account: grpc.account,
+      fee: minimumFee,
+      coins: amount,
+      maximumGas: maximumGas,
+      smartContracAddress: smartContracAddress,
+      functionName: targetFunction,
+      functionParameters: functionParameters,
+    );
+  }
+
+  /// wrap wraps MAS coin to WMAS
+
+  Future<(String, bool)> uwrap(double amount) async {
+    final params = Args();
+    const targetFunction = "withdraw";
+    final functionParameters = params.serialise();
+    final maximumGas = toMAS(BigInt.from(GasLimit.MAX_GAS_CALL.value));
+    final smartContracAddress = getTokenAddress(TokenName.WMAS, grpc.isBuildnet);
+    return await grpc.scCall(
+      account: grpc.account,
+      fee: minimumFee,
+      coins: amount,
       maximumGas: maximumGas,
       smartContracAddress: smartContracAddress,
       functionName: targetFunction,

@@ -8,7 +8,7 @@ void main() async {
   final account = await wallet.addAccountFromSecretKey(Env.privateKey, AddressType.user, NetworkType.BUILDNET);
   final grpc = GrpcServiceImpl(account: account, isBuildnet: false);
   final quoter = Quoter(grpc);
-  final amountIn = doubleToMassaInt(200.00);
+  final amountIn = doubleToMassaInt(1.00);
 
   final (route, pair, binSteps, amounts, amountsWithoutSlippage, fees) =
       await quoter.findBestPathFromAmountIn(TokenName.WMAS, TokenName.USDC, BigInt.from(amountIn));
