@@ -1,5 +1,5 @@
 
-## 1.2.1
+## 1.1.2
 
 - Added transfer function to the grpc service
 
