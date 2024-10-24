@@ -1,4 +1,8 @@
 
+## 1.2.1
+
+- Added transfer function to the grpc service
+
 ## 1.1.1
 
 - Fixed unwrap function bug

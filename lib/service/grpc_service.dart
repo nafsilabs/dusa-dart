@@ -33,6 +33,10 @@ abstract interface class GrpcService {
       required String functionName,
       required Uint8List functionParameters});
 
+  /// transfer coins from the account address to the a recipient address
+
+  Future<(String, bool)> transfer(
+      {required Account account, required String recipientAddress, required double amount, required double fee});
   Future<void> close();
 }
 
@@ -78,6 +82,32 @@ class GrpcServiceImpl implements GrpcService {
       final expirePeriod = status.lastExecutedFinalSlot.period + status.config.operationValidityPeriods;
       final operation = await callSC(
           account, smartContracAddress, functionName, functionParameters, fee, maximumGas, coins, expirePeriod.toInt());
+      String operationID = "";
+      await for (final resp in _grpc.sendOperations([operation])) {
+        if (resp.operationIds.operationIds.isEmpty) {
+          return (operationID, false);
+        }
+        operationID = resp.operationIds.operationIds[0];
+        final status = await waitForFinalOperationStatus(operationID);
+        return (operationID, status);
+      }
+      return (operationID, false);
+    } catch (error) {
+      throw Exception(error);
+    }
+  }
+
+  @override
+  Future<(String, bool)> transfer({
+    required Account account,
+    required String recipientAddress,
+    required double amount,
+    required double fee,
+  }) async {
+    try {
+      final status = await _grpc.getStatus();
+      final expirePeriod = status.lastExecutedFinalSlot.period + status.config.operationValidityPeriods;
+      final operation = await sendTransaction(account, recipientAddress, amount, fee, expirePeriod.toInt());
       String operationID = "";
       await for (final resp in _grpc.sendOperations([operation])) {
         if (resp.operationIds.operationIds.isEmpty) {
