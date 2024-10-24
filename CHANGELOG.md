@@ -1,4 +1,7 @@
 
+## 1.1.1
+
+- Fixed unwrap function bug
 
 ## 1.1.0
 

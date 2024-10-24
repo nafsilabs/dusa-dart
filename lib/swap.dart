@@ -137,8 +137,11 @@ class Swap {
 
   /// wrap wraps MAS coin to WMAS
 
-  Future<(String, bool)> uwrap(double amount) async {
+  Future<(String, bool)> unwrap(double amount) async {
     final params = Args();
+    params.addU64(fromMAS(amount));
+    params.addString(grpc.account.address());
+
     const targetFunction = "withdraw";
     final functionParameters = params.serialise();
     final maximumGas = toMAS(BigInt.from(GasLimit.MAX_GAS_CALL.value));
@@ -146,7 +149,7 @@ class Swap {
     return await grpc.scCall(
       account: grpc.account,
       fee: minimumFee,
-      coins: amount,
+      coins: 0.0,
       maximumGas: maximumGas,
       smartContracAddress: smartContracAddress,
       functionName: targetFunction,
