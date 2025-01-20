@@ -4,7 +4,7 @@ import 'package:dusa/constants.dart';
 import 'package:dusa/service/grpc_service.dart';
 import 'package:massa/massa.dart';
 
-enum TokenName { MAS, WMAS, USDC, WETH }
+enum TokenName { MAS, WMAS, USDC, WETH, USDT }
 
 class Token {
   final TokenName token;
@@ -18,11 +18,11 @@ class Token {
 
     const targetFunction = "balanceOf";
     final functionParameters = params.serialise();
-    const maximumGas = GasLimit.MAX_GAS_CALL;
+    const maximumGas = GasLimit.MIN_GAS_CALL;
     final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-      maximumGas: maximumGas.value / 1e9,
+      maximumGas: toMAS(BigInt.from(maximumGas.value)),
       smartContracAddress: smartContracAddress,
       functionName: targetFunction,
       functionParameters: functionParameters,
