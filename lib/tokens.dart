@@ -18,11 +18,11 @@ class Token {
 
     const targetFunction = "balanceOf";
     final functionParameters = params.serialise();
-    const maximumGas = GasLimit.MIN_GAS_CALL;
+    //const maximumGas = GasLimit.MIN_GAS_CALL;
     final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-      maximumGas: toMAS(BigInt.from(maximumGas.value)),
+      maximumGas: minimumFee,
       smartContracAddress: smartContracAddress,
       functionName: targetFunction,
       functionParameters: functionParameters,
@@ -38,11 +38,11 @@ class Token {
     final params = Args();
     const targetFunction = "totalSupply";
     final functionParameters = params.serialise();
-    const maximumGas = GasLimit.MAX_GAS_CALL;
+    //const maximumGas = GasLimit.MAX_GAS_CALL;
     final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-      maximumGas: maximumGas.value / 1e9,
+      maximumGas: minimumFee,
       smartContracAddress: smartContracAddress,
       functionName: targetFunction,
       functionParameters: functionParameters,
@@ -58,11 +58,11 @@ class Token {
     final params = Args();
     const targetFunction = "decimals";
     final functionParameters = params.serialise();
-    const maximumGas = GasLimit.MAX_GAS_CALL;
+    //const maximumGas = GasLimit.MAX_GAS_CALL;
     final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-      maximumGas: maximumGas.value / 1e9,
+      maximumGas: minimumFee,
       smartContracAddress: smartContracAddress,
       functionName: targetFunction,
       functionParameters: functionParameters,
@@ -78,11 +78,11 @@ class Token {
     final params = Args();
     const targetFunction = "name";
     final functionParameters = params.serialise();
-    const maximumGas = GasLimit.MAX_GAS_CALL;
+    //const maximumGas = GasLimit.MAX_GAS_CALL;
     final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-      maximumGas: maximumGas.value / 1e9,
+      maximumGas: minimumFee,
       smartContracAddress: smartContracAddress,
       functionName: targetFunction,
       functionParameters: functionParameters,
@@ -98,11 +98,11 @@ class Token {
     final params = Args();
     const targetFunction = "symbol";
     final functionParameters = params.serialise();
-    const maximumGas = GasLimit.MAX_GAS_CALL;
+    //const maximumGas = GasLimit.MAX_GAS_CALL;
     final smartContracAddress = getTokenAddress(token, grpc.isBuildnet);
 
     final response = await grpc.scReadOnlyCall(
-      maximumGas: maximumGas.value / 1e9,
+      maximumGas: minimumFee,
       smartContracAddress: smartContracAddress,
       functionName: targetFunction,
       functionParameters: functionParameters,
@@ -144,7 +144,7 @@ class Token {
 
     await grpc.scCall(
       account: grpc.account,
-      fee: 0.01,
+      fee: minimumFee,
       coins: 0.0,
       maximumGas: maximumGas.value / 1e9,
       smartContracAddress: smartContracAddress,
@@ -165,7 +165,7 @@ class Token {
 
     await grpc.scCall(
       account: grpc.account,
-      fee: 0.01,
+      fee: minimumFee,
       coins: 0.0,
       maximumGas: maximumGas,
       smartContracAddress: smartContracAddress,

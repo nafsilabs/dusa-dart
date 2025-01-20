@@ -1,4 +1,8 @@
 
+## 1.1.4
+
+- Improved smart contract token fee
+
 ## 1.1.3
 
 - Updated the token smart contract all gas amount
