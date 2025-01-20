@@ -1,5 +1,8 @@
 
-## 1.1.2
+## 1.1.3
+
+- Updated the token smart contract all gas amount
+
 
 - Added transfer function to the grpc service
 
